@@ -15,39 +15,41 @@
     function outputUpdate8(val) {
 		brg8 = new Messaging.Message(val);
 		brg8.destinationName = "zdravosho/led/8";
-		client.send(brg8);
+		MQTT_Client.send(brg8);
+
 	}
     function outputUpdate6(val) {
 		brg6 = new Messaging.Message(val);
 		brg6.destinationName = "zdravosho/led/6";
-		client.send(brg6);
+		MQTT_Client.send(brg6);
 	}
 	function reset() {
 		res = new Messaging.Message("1");
 		res.destinationName = "zdravosho/reset";
-		client.send(res);
+		MQTT_Client.send(res);
 	}	
 	function updateRGB(picker) {
+		event.stopPropagation();
 		rgb = picker.toRGBString();
-		g =   JSON.stringify(rgb);
-		v = new String(g);
-		//console.log(JSON.stringify(rgb));
-		valRGB = new Messaging.Message(v);
+		var rgb1 =   JSON.stringify(rgb);
+		var rgb2 = rgb.match(/\d+/g);
+	    console.log(rgb2);
+		valRGB = new Messaging.Message(rgb2[0]+','+rgb2[1]+','+rgb2[2]);
 		valRGB.destinationName("zdravosho/rgb");
-		client.send(valRGB);
+		MQTT_Client.send(valRGB);
 	}
 
 	var tempGauge;
-	var client = new Messaging.Client("m21.cloudmqtt.com", 39318,
+	var MQTT_Client = new Messaging.Client("m21.cloudmqtt.com", 39318,
 				"myclientid_" + parseInt(Math.random() * 100, 10));
 
-	client.onConnectionLost = function (responseObject) {
+	MQTT_Client.onConnectionLost = function (responseObject) {
 		alert("connection lost: " + responseObject.errorMessage);
 		tempGauge.setLedColor(steelseries.LedColor.RED_LED); //change status LED to RED on broker disconnection 
 
 	};
 
-	client.onMessageArrived = function (message) {
+	MQTT_Client.onMessageArrived = function (message) {
 		tempGauge.setValue(message.payloadString);
 	};
 
@@ -59,7 +61,7 @@
 		onSuccess: function () {
 			// alert("Connected");
 			// Connection succeeded; subscribe to our topic
-			client.subscribe('zdravosho/temp', {qos: 0});
+			MQTT_Client.subscribe('zdravosho/temp', {qos: 0});
 			tempGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
 
 		},
@@ -100,7 +102,7 @@
 
 
 		/* Connect to MQTT broker */
-		client.connect(options);
+		MQTT_Client.connect(options);
 	}
 
     </script>
