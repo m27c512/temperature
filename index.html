@@ -11,13 +11,21 @@
     <title>Temp</title>
     <script type="text/javascript">
 
-    function outputUpdate(val) {
-		document.querySelector('#brght8').value = val;
-		message = new Messaging.Message(val);
-		message.destinationName = "zdravosho/led/8";
-		client.send(message);
+    function outputUpdate8(val) {
+		brg8 = new Messaging.Message(val);
+		brg8.destinationName = "zdravosho/led/8";
+		client.send(brg8);
 	}
-
+    function outputUpdate6(val) {
+		brg6 = new Messaging.Message(val);
+		brg6.destinationName = "zdravosho/led/6";
+		client.send(brg6);
+	}
+	function reset() {
+		res = new Messaging.Message("1");
+		res.destinationName = "zdravosho/reset";
+		client.send(res);
+	}	
 
 	var tempGauge;
 	var client = new Messaging.Client("m21.cloudmqtt.com", 39318,
@@ -41,7 +49,6 @@
 		onSuccess: function () {
 			// alert("Connected");
 			// Connection succeeded; subscribe to our topic
-			client.subscribe("zdravosho/led/8",{qos: 0});
 			client.subscribe('zdravosho/temp', {qos: 0});
 			tempGauge.setLedColor(steelseries.LedColor.GREEN_LED); //change status LED to GREEN on broker connection
 
@@ -90,10 +97,22 @@
   </head>
   <body onload="init();">
        <div>
-       <canvas id=gaugeCanvas width=200 height=200>No canvas in your browser...sorry...</canvas>
-	   <label for="fader">Volume</label>
-	   <input type="range" min="0" max="1023" value="0" id="b8_Slider" step="1" oninput="outputUpdate(value)">
-	   <output for="b8_Slider" id="brght8">0</output>
+       	<table style="height: 306px;" align="center" width="800">
+			<tbody>
+			<tr>
+			<td rowspan="3"><canvas id="gaugeCanvas" width="200" height="200">No canvas in your browser...sorry...</canvas><br /><br /><br /></td>
+			<td style="text-align: center;">Brightness LED8:</td>
+			<td><input id="b8_Slider" style="width: 100%;" max="1023" min="0" step="1" type="range" value="0" oninput="outputUpdate8(value)" /></td>
+			</tr>
+			<tr>
+			<td style="text-align: center;">Brightness LED6:</td>
+			<td><input id="b6_Slider" style="width: 100%;" max="1023" min="0" step="1" type="range" value="0" oninput="outputUpdate6(value)" /></td>
+			</tr>
+			<tr>
+			<td style="text-align: center;" colspan="2" onclick="reset()"><button>Reset</button></td>
+			</tr>
+			</tbody>
+		</table>
        </div>
   </body>
 </html>
