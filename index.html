@@ -29,13 +29,12 @@
 		MQTT_Client.send(res);
 	}	
 	function updateRGB(picker) {
-		event.stopPropagation();
-		rgb = picker.toRGBString();
+		var rgb = picker.toRGBString();
 		var rgb1 =   JSON.stringify(rgb);
 		var rgb2 = rgb.match(/\d+/g);
-	    console.log(rgb2);
-		valRGB = new Messaging.Message(rgb2[0]+','+rgb2[1]+','+rgb2[2]);
-		valRGB.destinationName("zdravosho/rgb");
+	    //console.log(rgb2);
+		var valRGB = new Messaging.Message(rgb2[0]+','+rgb2[1]+','+rgb2[2]);
+		valRGB.destinationName = "zdravosho/rgb";
 		MQTT_Client.send(valRGB);
 	}
 
