@@ -35,7 +35,7 @@
 	    //console.log(rgb2);
 	    gamma = 2.2
 	    //var msg = Math.round(Math.pow(rgb2[0],gamma)).toString() +','+Math.round(Math.pow(rgb2[1],gamma)).toString()+','+Math.round(Math.pow(rgb2[2],gamma)).toString();
-	    var msg = Math.round(rgb2[0]*0.59).toString() +','+Math.round(rgb2[1]*0.3).toString()+','+Math.round(rgb2[2]*0.11).toString();
+	    var msg = Math.round(rgb2[0]*0.3).toString() +','+Math.round(rgb2[1]*0.59).toString()+','+Math.round(rgb2[2]*0.11).toString();
 	    console.log(msg);
 		var valRGB = new Messaging.Message(msg);
 		valRGB.destinationName = "zdravosho/rgb";
