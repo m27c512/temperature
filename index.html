@@ -33,10 +33,13 @@
 		var rgb1 =   JSON.stringify(rgb);
 		var rgb2 = rgb.match(/\d+/g);
 	    //console.log(rgb2);
-	    gamma = 2.2
-	    //var msg = Math.round(Math.pow(rgb2[0],gamma)).toString() +','+Math.round(Math.pow(rgb2[1],gamma)).toString()+','+Math.round(Math.pow(rgb2[2],gamma)).toString();
-	    var msg = Math.round(rgb2[0]*0.3).toString() +','+Math.round(rgb2[1]*0.59).toString()+','+Math.round(rgb2[2]*0.11).toString();
+	    gamma = 1/2.2
+	    var msg = Math.round(rgb2[0] * 0.67).toString() +','+Math.round(rgb2[1] * 0.21).toString()+','+Math.round(rgb2[2] * 0.14).toString();
+	    //var msg = Math.round(255 * Math.pow(1/rgb2[0],gamma)).toString() +','+Math.round(255*Math.pow(1/rgb2[1],gamma)).toString()+','+Math.round(255*Math.pow(1/rgb2[2],gamma)).toString();
 	    console.log(msg);
+	    console.log(Math.pow(1/rgb2[0],gamma));
+	    console.log(Math.pow(1/rgb2[1],gamma));
+	    console.log(Math.pow(1/rgb2[2],gamma));
 		var valRGB = new Messaging.Message(msg);
 		valRGB.destinationName = "zdravosho/rgb";
 		MQTT_Client.send(valRGB);
