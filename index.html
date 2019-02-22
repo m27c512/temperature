@@ -33,9 +33,9 @@
 		var rgb1 =   JSON.stringify(rgb);
 		var rgb2 = rgb.match(/\d+/g);
 	    //console.log(rgb2);
-	    r = 0.58*255*Math.pow(rgb2[0]/255,2.2);
-	    g = 0.31*255*Math.pow(rgb2[1]/255,2.2);
-	    b = 0.11*255*Math.pow(rgb2[2]/255,2.2);
+	    r = 255*Math.pow(rgb2[0]/255,2.2);
+	    g = 255*Math.pow(rgb2[1]/255,2.2);
+	    b = 255*Math.pow(rgb2[2]/255,2.2);
 	    var msg = Math.round(r).toString() +','+Math.round(g).toString()+','+Math.round(b).toString();
 	    console.log(msg)
 		var valRGB = new Messaging.Message(msg);
